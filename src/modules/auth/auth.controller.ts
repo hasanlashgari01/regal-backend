@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SendOtpDto } from './dto/otp.dto';
+import { CheckOtpDto, SendOtpDto } from './dto/otp.dto';
 import { ApiConsumes } from '@nestjs/swagger';
 import { SwaggerConsumes } from 'src/common/enums/swagger-consumes.enum';
 
@@ -12,5 +12,11 @@ export class AuthController {
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   sendOtp(@Body() sendOtpDto: SendOtpDto) {
     return this.authService.sendOtp(sendOtpDto);
+  }
+
+  @Post('check-otp')
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  checkOtp(@Body() checkOtpDto: CheckOtpDto) {
+    return this.authService.checkOtp(checkOtpDto);
   }
 }

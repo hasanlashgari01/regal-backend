@@ -26,7 +26,7 @@ export class UserEntity {
   mobile: string;
 
   @Column({ nullable: true, default: false })
-  verifyPhone: boolean;
+  verifyMobile: boolean;
 
   @Column({ nullable: true })
   email: string;
