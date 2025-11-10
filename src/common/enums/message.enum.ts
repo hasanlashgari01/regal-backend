@@ -8,9 +8,14 @@ export enum AuthMessage {
   LoginRequired = 'وارد حساب کاربری خود شوید',
 }
 
-export enum BadRequestMessage {}
+export enum BadRequestMessage {
+  File = 'فایلی ارسال نشده است',
+  FileName = 'فایل معتبر نیست',
+}
 
-export enum ConflictMessage {}
+export enum ConflictMessage {
+  ExistCategorySlug = 'دسته‌بندی با این slug وجود دارد',
+}
 
 export enum PublicMessage {}
 
@@ -19,3 +24,11 @@ export enum NotFoundMessage {
 }
 
 export enum ValidationMessage {}
+
+export enum InternalServerMessage {
+  File = 'خطا در آپلود تصویر',
+}
+
+export enum SuccessMessage {
+  CreateCategory = 'دسته بندی با موفقیت ساخته شد',
+}
