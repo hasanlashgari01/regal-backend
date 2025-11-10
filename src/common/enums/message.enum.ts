@@ -5,6 +5,7 @@ export enum AuthMessage {
   UsedCode = 'کد قبلا استفاده شده',
   LoginAgain = 'مجددا لاگین کنید',
   LoggedIn = 'وارد حساب کاربری خود شدید',
+  LoginRequired = 'وارد حساب کاربری خود شوید',
 }
 
 export enum BadRequestMessage {}

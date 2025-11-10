@@ -2,10 +2,10 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomInt } from 'crypto';
 import { AuthMessage, NotFoundMessage } from 'src/common/enums/message.enum';
+import { OtpEntity } from 'src/modules/users/entities/otp.entity';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { OtpEntity } from '../users/entities/otp.entity';
-import { UserEntity } from '../users/entities/user.entity';
-import { CheckOtpDto, SendOtpDto } from './dto/otp.dto';
+import { CheckOtpDto, SendOtpDto } from '../dto/otp.dto';
 import { TokenService } from './token.service';
 
 @Injectable()
@@ -43,8 +43,13 @@ export class AuthService {
     if (!user) throw new NotFoundException(NotFoundMessage.User);
     await this.validateOtp(user.id, code);
 
-    const accessToken = this.tokenService.createAccessToken({ userId: user.id });
-    const refreshToken = this.tokenService.createRefreshToken({ userId: user.id });
+    const payload = {
+      sub: user.id,
+      mobile: user.mobile,
+      role: user.role,
+    };
+    const accessToken = this.tokenService.createAccessToken(payload);
+    const refreshToken = this.tokenService.createRefreshToken(payload);
 
     if (!user.verifyMobile) {
       user.verifyMobile = true;
@@ -56,6 +61,10 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+
+  getMe() {
+    return 'me';
   }
 
   private async generateOtp(userId: number): Promise<OtpEntity> {
