@@ -1,7 +1,7 @@
-export type AccessTokenPayload = {
-  userId: number;
-};
+import { Role } from 'src/common/enums/role.enum';
 
-export type RefreshTokenPayload = {
-  userId: number;
+export type TokenPayload = {
+  sub: number;
+  mobile: string;
+  role: Role;
 };

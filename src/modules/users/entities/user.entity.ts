@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { OtpEntity } from './otp.entity';
-import { Roles } from 'src/common/enums/role.enum';
+import { Role } from 'src/common/enums/role.enum';
 
 @Entity(EntityName.User)
 export class UserEntity {
@@ -34,8 +34,8 @@ export class UserEntity {
   @Column({ nullable: true, default: false })
   verifyEmail: boolean;
 
-  @Column({ default: Roles.User })
-  role: Roles;
+  @Column({ default: Role.User })
+  role: Role;
 
   @Column({ nullable: true })
   otpId: number;
