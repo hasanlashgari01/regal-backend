@@ -24,25 +24,9 @@ export class TokenService {
         secret: process.env.ACCESS_TOKEN_SECRET,
       });
 
-      if (typeof payload === 'object' && payload.sub) {
-        const user = await this.usersService.findOneById(payload.sub);
-        if (!user) throw new UnauthorizedException(AuthMessage.LoginRequired);
-
-        return {
-          sub: user.id,
-          mobile: user.mobile,
-          role: user.role,
-        };
-      }
-      throw new UnauthorizedException(AuthMessage.LoginRequired);
+      return await this.validatePayload(payload);
     } catch (error: unknown) {
-      if (error instanceof TokenExpiredError) {
-        throw new UnauthorizedException(AuthMessage.LoginRequired);
-      }
-
-      if (error instanceof JsonWebTokenError || error instanceof NotBeforeError) {
-        throw new UnauthorizedException('Invalid token');
-      }
+      this.jwtErrorHandler(error);
 
       throw new UnauthorizedException(AuthMessage.LoginRequired);
     }
@@ -55,21 +39,42 @@ export class TokenService {
     });
   }
 
-  verifyRefreshToken(token: string): TokenPayload {
+  async verifyRefreshToken(token: string): Promise<TokenPayload> {
     try {
-      return this.jwtService.verify<TokenPayload>(token, {
+      const payload = this.jwtService.verify<TokenPayload>(token, {
         secret: process.env.REFRESH_TOKEN_SECRET,
       });
-    } catch (error: unknown) {
-      if (error instanceof TokenExpiredError) {
-        throw new UnauthorizedException(AuthMessage.LoginRequired);
-      }
 
-      if (error instanceof JsonWebTokenError || error instanceof NotBeforeError) {
-        throw new UnauthorizedException('Invalid token');
-      }
+      return await this.validatePayload(payload);
+    } catch (error: unknown) {
+      this.jwtErrorHandler(error);
 
       throw new UnauthorizedException(AuthMessage.LoginRequired);
+    }
+  }
+
+  private async validatePayload(payload: TokenPayload) {
+    if (typeof payload === 'object' && payload.sub) {
+      const user = await this.usersService.findOneById(payload.sub);
+      if (!user) throw new UnauthorizedException(AuthMessage.LoginRequired);
+
+      return {
+        sub: user.id,
+        mobile: user.mobile,
+        role: user.role,
+      };
+    }
+
+    throw new UnauthorizedException(AuthMessage.LoginRequired);
+  }
+
+  private jwtErrorHandler(error: unknown) {
+    if (error instanceof TokenExpiredError) {
+      throw new UnauthorizedException(AuthMessage.LoginRequired);
+    }
+
+    if (error instanceof JsonWebTokenError || error instanceof NotBeforeError) {
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }
