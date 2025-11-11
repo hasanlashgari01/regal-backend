@@ -1,11 +1,11 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './entities/category.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { S3Service } from '../s3/s3.service';
-import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class CategoriesService {
@@ -18,11 +18,12 @@ export class CategoriesService {
     const { name, slug } = createCategoryDto;
 
     await this.ensureSlugIsUnique(slug);
-    const result = await this.s3Service.uploadFile(image, 'categories');
+    const { Location, Key } = await this.s3Service.uploadFile(image, 'categories');
     const category = await this.categoryRepository.save({
       name,
       slug,
-      image: result.Location,
+      image: Location,
+      imageKey: Key,
     });
 
     return {
@@ -33,15 +34,40 @@ export class CategoriesService {
   }
 
   findAll() {
-    return `This action returns all categories`;
+    return this.categoryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOneById(id: number) {
+    const category = await this.categoryRepository.findOneBy({ id });
+    if (!category) throw new NotFoundException(NotFoundMessage.Category);
+
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto, image: Express.Multer.File) {
+    const category = await this.findOneById(id);
+    const { name, slug } = updateCategoryDto;
+
+    const updateObject: DeepPartial<CategoryEntity> = {};
+    if (name) updateObject['name'] = name;
+    if (slug) {
+      await this.ensureSlugIsUnique(slug);
+      updateObject['slug'] = slug;
+    }
+    if (image) {
+      const { Location, Key } = await this.s3Service.uploadFile(image, 'categories');
+      if (Location) {
+        updateObject['image'] = Location;
+        updateObject['imageKey'] = Key;
+        await this.s3Service.deleteFile(category.imageKey);
+      }
+    }
+
+    await this.categoryRepository.update({ id }, updateObject);
+
+    return {
+      message: SuccessMessage.UpdateCategory,
+    };
   }
 
   remove(id: number) {

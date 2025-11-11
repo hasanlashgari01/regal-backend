@@ -25,6 +25,9 @@ export class CategoryEntity {
   @Column({ nullable: true })
   image: string;
 
+  @Column({ nullable: true })
+  imageKey: string;
+
   @OneToMany(() => ProductEntity, (product) => product.category)
   products: ProductEntity[];
 

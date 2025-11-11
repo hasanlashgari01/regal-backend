@@ -21,6 +21,7 @@ export enum PublicMessage {}
 
 export enum NotFoundMessage {
   User = 'کاربر یافت نشد',
+  Category = 'دسته بندی یافت نشد',
 }
 
 export enum ValidationMessage {}
@@ -31,4 +32,5 @@ export enum InternalServerMessage {
 
 export enum SuccessMessage {
   CreateCategory = 'دسته بندی با موفقیت ساخته شد',
+  UpdateCategory = 'دسته بندی با موفقیت آپدیت شد',
 }
