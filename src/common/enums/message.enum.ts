@@ -33,4 +33,5 @@ export enum InternalServerMessage {
 export enum SuccessMessage {
   CreateCategory = 'دسته بندی با موفقیت ساخته شد',
   UpdateCategory = 'دسته بندی با موفقیت آپدیت شد',
+  DeleteCategory = 'دسته بندی با موفقیت حذف شد',
 }

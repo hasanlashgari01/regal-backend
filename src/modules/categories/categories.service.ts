@@ -70,8 +70,15 @@ export class CategoriesService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    const category = await this.findOneById(id);
+    const result = await this.categoryRepository.delete({ id });
+    if (result.affected === 0) throw new NotFoundException(NotFoundMessage.Category);
+    await this.s3Service.deleteFile(category.imageKey);
+
+    return {
+      message: SuccessMessage.DeleteCategory,
+    };
   }
 
   async ensureSlugIsUnique(slug: string) {
