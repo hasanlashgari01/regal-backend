@@ -2,12 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DesignService } from './design.service';
 import { CreateDesignDto } from './dto/create-design.dto';
 import { UpdateDesignDto } from './dto/update-design.dto';
+import { Admin } from 'src/common/decorators/auth.decorator';
+import { ApiConsumes } from '@nestjs/swagger';
+import { SwaggerConsumes } from 'src/common/enums/swagger-consumes.enum';
 
 @Controller('design')
 export class DesignController {
   constructor(private readonly designService: DesignService) {}
 
   @Post()
+  @Admin()
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   create(@Body() createDesignDto: CreateDesignDto) {
     return this.designService.create(createDesignDto);
   }
