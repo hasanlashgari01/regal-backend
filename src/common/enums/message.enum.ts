@@ -23,6 +23,7 @@ export enum PublicMessage {}
 export enum NotFoundMessage {
   User = 'کاربر یافت نشد',
   Category = 'دسته بندی یافت نشد',
+  Material = 'جنس لباس یافت نشد',
 }
 
 export enum ValidationMessage {}

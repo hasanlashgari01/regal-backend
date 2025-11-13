@@ -1,9 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MaterialEntity } from './entities/material.entity';
 import { Repository } from 'typeorm';
 import { CreateMaterialDto } from './dto/create-material.dto';
-import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class MaterialService {
@@ -25,6 +25,17 @@ export class MaterialService {
       message: SuccessMessage.CreateMaterial,
       data: material,
     };
+  }
+
+  findAll() {
+    return this.materialRepository.find();
+  }
+
+  async findOneById(id: number) {
+    const material = await this.materialRepository.findOneBy({ id });
+    if (!material) throw new NotFoundException(NotFoundMessage.Material);
+
+    return material;
   }
 
   async ensureSlugIsUnique(slug: string) {
