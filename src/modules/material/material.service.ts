@@ -38,6 +38,15 @@ export class MaterialService {
     return material;
   }
 
+  async remove(id: number) {
+    await this.findOneById(id);
+    await this.materialRepository.delete({ id });
+
+    return {
+      message: SuccessMessage.DeleteCategory,
+    };
+  }
+
   async ensureSlugIsUnique(slug: string) {
     const existing = await this.materialRepository.findOneBy({ slug });
     if (existing) throw new ConflictException(ConflictMessage.ExistMaterialSlug);

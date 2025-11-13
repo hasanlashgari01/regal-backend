@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { ApiConsumes } from '@nestjs/swagger';
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -21,5 +21,10 @@ export class MaterialController {
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.materialService.findOneById(+id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.materialService.remove(+id);
   }
 }
