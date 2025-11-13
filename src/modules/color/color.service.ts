@@ -50,8 +50,13 @@ export class ColorService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} color`;
+  async remove(id: number) {
+    await this.findOne(id);
+    await this.colorRepository.delete({ id });
+
+    return {
+      message: SuccessMessage.DeleteColor,
+    };
   }
 
   async ensureCodeIsUnique(code: string) {
