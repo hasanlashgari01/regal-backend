@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { ApiConsumes } from '@nestjs/swagger';
 import { CreateMaterialDto } from './dto/create-material.dto';
+import { UpdateMaterialDto } from './dto/update-material.dto';
 
 @Controller('material')
 export class MaterialController {
@@ -21,6 +22,12 @@ export class MaterialController {
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.materialService.findOneById(+id);
+  }
+
+  @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  update(@Param('id') id: string, @Body() updateMaterialDto: UpdateMaterialDto) {
+    return this.materialService.update(+id, updateMaterialDto);
   }
 
   @Delete(':id')
