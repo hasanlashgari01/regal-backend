@@ -1,10 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ColorEntity } from './entities/color.entity';
-import { Repository } from 'typeorm';
-import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { DeepPartial, Repository } from 'typeorm';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class ColorService {
@@ -26,16 +26,28 @@ export class ColorService {
     };
   }
 
-  findAll() {
-    return `This action returns all color`;
+  async findOne(id: number) {
+    const color = await this.colorRepository.findOneBy({ id });
+    if (!color) throw new NotFoundException(NotFoundMessage.Color);
+
+    return color;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} color`;
-  }
+  async update(id: number, updateColorDto: UpdateColorDto) {
+    await this.findOne(id);
+    const { name, code } = updateColorDto;
+    const updateObject: DeepPartial<ColorEntity> = {};
+    if (name) updateObject['name'] = name;
+    if (code) {
+      await this.ensureCodeIsUnique(code);
+      updateObject['code'] = code;
+    }
 
-  update(id: number, updateColorDto: UpdateColorDto) {
-    return `This action updates a #${id} color`;
+    await this.colorRepository.update({ id }, updateObject);
+
+    return {
+      message: SuccessMessage.UpdateColor,
+    };
   }
 
   remove(id: number) {

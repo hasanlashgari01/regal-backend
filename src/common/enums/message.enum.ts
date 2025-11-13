@@ -25,6 +25,7 @@ export enum NotFoundMessage {
   User = 'کاربر یافت نشد',
   Category = 'دسته بندی یافت نشد',
   Material = 'جنس لباس یافت نشد',
+  Color = 'رنگ مورد نظر یافت نشد',
 }
 
 export enum ValidationMessage {}
