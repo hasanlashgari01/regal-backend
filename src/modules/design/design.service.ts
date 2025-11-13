@@ -1,10 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDesignDto } from './dto/create-design.dto';
 import { UpdateDesignDto } from './dto/update-design.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DesignEntity } from './entities/design.entity';
 import { Repository } from 'typeorm';
-import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class DesignService {
@@ -27,11 +27,14 @@ export class DesignService {
   }
 
   findAll() {
-    return `This action returns all design`;
+    return this.designRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} design`;
+  async findOne(id: number) {
+    const design = await this.designRepository.findOneBy({ id });
+    if (!design) throw new NotFoundException(NotFoundMessage.Design);
+
+    return design;
   }
 
   update(id: number, updateDesignDto: UpdateDesignDto) {
