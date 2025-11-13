@@ -26,6 +26,10 @@ export class ColorService {
     };
   }
 
+  find() {
+    return this.colorRepository.find();
+  }
+
   async findOne(id: number) {
     const color = await this.colorRepository.findOneBy({ id });
     if (!color) throw new NotFoundException(NotFoundMessage.Color);
