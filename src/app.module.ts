@@ -7,6 +7,7 @@ import dbConfig from './config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { MaterialModule } from './modules/material/material.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     AuthModule,
     UsersModule,
     CategoriesModule,
+    MaterialModule,
   ],
   controllers: [AppController],
   providers: [AppService],

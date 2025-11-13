@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity(EntityName.Categories)
-export class CategoryEntity {
+@Entity(EntityName.Material)
+export class MaterialEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -19,12 +19,6 @@ export class CategoryEntity {
   @Column({ unique: true })
   @Index()
   slug: string;
-
-  @Column({ nullable: true })
-  image: string;
-
-  @Column({ nullable: true })
-  imageKey: string;
 
   @CreateDateColumn()
   createdAt: Date;
