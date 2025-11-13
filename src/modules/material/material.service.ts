@@ -1,9 +1,10 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MaterialEntity } from './entities/material.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { UpdateMaterialDto } from './dto/update-material.dto';
 
 @Injectable()
 export class MaterialService {
@@ -12,6 +13,8 @@ export class MaterialService {
   ) {}
 
   async create(createMaterialDto: CreateMaterialDto) {
+    console.log(createMaterialDto);
+
     const { name, slug } = createMaterialDto;
 
     await this.ensureSlugIsUnique(slug);
@@ -36,6 +39,24 @@ export class MaterialService {
     if (!material) throw new NotFoundException(NotFoundMessage.Material);
 
     return material;
+  }
+
+  async update(id: number, updateMaterialDto: UpdateMaterialDto) {
+    await this.findOneById(id);
+    const { name, slug } = updateMaterialDto;
+
+    const updateObject: DeepPartial<MaterialEntity> = {};
+    if (name) updateObject['name'] = name;
+    if (slug) {
+      await this.ensureSlugIsUnique(slug);
+      updateObject['slug'] = slug;
+    }
+
+    await this.materialRepository.update({ id }, updateObject);
+
+    return {
+      message: SuccessMessage.UpdateMaterial,
+    };
   }
 
   async remove(id: number) {
