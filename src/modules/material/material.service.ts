@@ -13,8 +13,6 @@ export class MaterialService {
   ) {}
 
   async create(createMaterialDto: CreateMaterialDto) {
-    console.log(createMaterialDto);
-
     const { name, slug } = createMaterialDto;
 
     await this.ensureSlugIsUnique(slug);

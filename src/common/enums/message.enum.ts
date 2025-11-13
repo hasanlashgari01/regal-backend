@@ -16,6 +16,7 @@ export enum BadRequestMessage {
 export enum ConflictMessage {
   ExistCategorySlug = 'دسته‌بندی با این slug وجود دارد',
   ExistMaterialSlug = 'جنس لباس با این slug وجود دارد',
+  ExistColorCode = 'رنگ مورد نظر وجود دارد',
 }
 
 export enum PublicMessage {}
@@ -39,4 +40,7 @@ export enum SuccessMessage {
   CreateMaterial = 'جنس لباس با موفقیت ساخته شد',
   UpdateMaterial = 'جنس لباس با موفقیت آپدیت شد',
   DeleteMaterial = 'جنس لباس با موفقیت حذف شد',
+  CreateColor = 'رنگ با موفقیت ساخته شد',
+  UpdateColor = 'رنگ با موفقیت آپدیت شد',
+  DeleteColor = 'رنگ با موفقیت حذف شد',
 }

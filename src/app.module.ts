@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MaterialModule } from './modules/material/material.module';
+import { ColorModule } from './modules/color/color.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MaterialModule } from './modules/material/material.module';
     UsersModule,
     CategoriesModule,
     MaterialModule,
+    ColorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
