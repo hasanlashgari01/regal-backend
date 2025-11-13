@@ -4,12 +4,14 @@ import { ApiConsumes } from '@nestjs/swagger';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
 import { SwaggerConsumes } from 'src/common/enums/swagger-consumes.enum';
+import { Admin } from 'src/common/decorators/auth.decorator';
 
 @Controller('material')
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
   @Post()
+  @Admin()
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   create(@Body() createMaterialDto: CreateMaterialDto) {
     return this.materialService.create(createMaterialDto);
@@ -21,17 +23,20 @@ export class MaterialController {
   }
 
   @Get(':id')
+  @Admin()
   findOneById(@Param('id') id: string) {
     return this.materialService.findOneById(+id);
   }
 
   @Patch(':id')
+  @Admin()
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   update(@Param('id') id: string, @Body() updateMaterialDto: UpdateMaterialDto) {
     return this.materialService.update(+id, updateMaterialDto);
   }
 
   @Delete(':id')
+  @Admin()
   remove(@Param('id') id: string) {
     return this.materialService.remove(+id);
   }

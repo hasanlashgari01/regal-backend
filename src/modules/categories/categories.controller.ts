@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes } from '@nestjs/swagger';
+import { Admin } from 'src/common/decorators/auth.decorator';
 import {
   ImageOptionalValidation,
   ImageValidation,
@@ -24,6 +25,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
+  @Admin()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
   create(
@@ -39,6 +41,7 @@ export class CategoriesController {
   }
 
   @Patch(':id')
+  @Admin()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
   update(
@@ -50,6 +53,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @Admin()
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(+id);
   }

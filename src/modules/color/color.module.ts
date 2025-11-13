@@ -3,9 +3,10 @@ import { ColorService } from './color.service';
 import { ColorController } from './color.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ColorEntity } from './entities/color.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ColorEntity])],
+  imports: [AuthModule, TypeOrmModule.forFeature([ColorEntity])],
   controllers: [ColorController],
   providers: [ColorService],
 })
