@@ -6,6 +6,7 @@ export enum AuthMessage {
   LoginAgain = 'مجددا لاگین کنید',
   LoggedIn = 'وارد حساب کاربری خود شدید',
   LoginRequired = 'وارد حساب کاربری خود شوید',
+  NotAccess = 'دسترسی شما برای انجام این درخواست کافی نیست',
 }
 
 export enum BadRequestMessage {
