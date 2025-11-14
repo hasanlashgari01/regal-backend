@@ -54,8 +54,13 @@ export class DesignService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} design`;
+  async remove(id: number) {
+    await this.findOne(id);
+    await this.designRepository.delete({ id });
+
+    return {
+      message: SuccessMessage.DeleteDesign,
+    };
   }
 
   async ensureSlugIsUnique(enName: string) {
