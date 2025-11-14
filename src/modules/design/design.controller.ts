@@ -35,6 +35,7 @@ export class DesignController {
   }
 
   @Delete(':id')
+  @Admin()
   remove(@Param('id') id: string) {
     return this.designService.remove(+id);
   }
