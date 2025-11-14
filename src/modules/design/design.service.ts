@@ -3,7 +3,7 @@ import { CreateDesignDto } from './dto/create-design.dto';
 import { UpdateDesignDto } from './dto/update-design.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DesignEntity } from './entities/design.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
@@ -37,8 +37,21 @@ export class DesignService {
     return design;
   }
 
-  update(id: number, updateDesignDto: UpdateDesignDto) {
-    return `This action updates a #${id} design`;
+  async update(id: number, updateDesignDto: UpdateDesignDto) {
+    await this.findOne(id);
+    const { name, enName } = updateDesignDto;
+    const updateObject: DeepPartial<DesignEntity> = {};
+    if (name) updateObject['name'] = name;
+    if (enName) {
+      await this.ensureSlugIsUnique(enName);
+      updateObject['enName'] = enName;
+    }
+
+    await this.designRepository.update({ id }, updateObject);
+
+    return {
+      message: SuccessMessage.UpdateDesign,
+    };
   }
 
   remove(id: number) {

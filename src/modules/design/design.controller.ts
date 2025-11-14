@@ -28,6 +28,8 @@ export class DesignController {
   }
 
   @Patch(':id')
+  @Admin()
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   update(@Param('id') id: string, @Body() updateDesignDto: UpdateDesignDto) {
     return this.designService.update(+id, updateDesignDto);
   }
