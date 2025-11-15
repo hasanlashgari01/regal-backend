@@ -1,9 +1,11 @@
 import { EntityName } from 'src/common/enums/entity.enum';
+import { ProductCategoryEntity } from 'src/modules/product/entities/product-category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,9 @@ export class CategoryEntity {
 
   @Column({ nullable: true })
   imageKey: string;
+
+  @OneToMany(() => ProductCategoryEntity, (pc) => pc.category)
+  products: ProductCategoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
