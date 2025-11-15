@@ -1,5 +1,6 @@
 import { EntityName } from 'src/common/enums/entity.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductEntity } from './product.entity';
 
 @Entity(EntityName.ProductColor)
 export class ProductColorEntity {
@@ -8,6 +9,8 @@ export class ProductColorEntity {
 
   @Column()
   productId: number;
+  @ManyToOne(() => ProductEntity, (product) => product.features, { onDelete: 'CASCADE' })
+  product: ProductEntity;
 
   @Column()
   name: string;
