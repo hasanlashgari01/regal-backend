@@ -11,6 +11,7 @@ import { MaterialModule } from './modules/material/material.module';
 import { ColorModule } from './modules/color/color.module';
 import { DesignModule } from './modules/design/design.module';
 import { SizeModule } from './modules/size/size.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SizeModule } from './modules/size/size.module';
     ColorModule,
     DesignModule,
     SizeModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
