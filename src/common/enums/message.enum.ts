@@ -30,6 +30,7 @@ export enum NotFoundMessage {
   Material = 'جنس لباس یافت نشد',
   Color = 'رنگ مورد نظر یافت نشد',
   Design = 'طرح مورد نظر یافت نشد',
+  Size = 'سایز مورد نظر یافت نشد',
 }
 
 export enum ValidationMessage {}

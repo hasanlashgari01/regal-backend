@@ -1,10 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SizeEntity } from './entities/size.entity';
 import { Repository } from 'typeorm';
-import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class SizeService {
@@ -27,11 +27,14 @@ export class SizeService {
   }
 
   findAll() {
-    return `This action returns all size`;
+    return this.sizeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} size`;
+  async findOne(id: number) {
+    const size = await this.sizeRepository.findOneBy({ id });
+    if (!size) throw new NotFoundException(NotFoundMessage.Size);
+
+    return size;
   }
 
   update(id: number, updateSizeDto: UpdateSizeDto) {
