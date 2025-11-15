@@ -19,6 +19,7 @@ export enum ConflictMessage {
   ExistMaterialSlug = 'جنس لباس با این slug وجود دارد',
   ExistColorCode = 'رنگ مورد نظر وجود دارد',
   ExistDesign = 'طرح وجود دارد',
+  ExistSize = 'سایز وجود دارد',
 }
 
 export enum PublicMessage {}
@@ -50,4 +51,7 @@ export enum SuccessMessage {
   CreateDesign = ' طرح با موفقیت ساخته شد',
   UpdateDesign = ' طرح با موفقیت آپدیت شد',
   DeleteDesign = ' طرح با موفقیت حذف شد',
+  CreateSize = ' سایز با موفقیت ساخته شد',
+  UpdateSize = ' سایز با موفقیت آپدیت شد',
+  DeleteSize = ' سایز با موفقیت حذف شد',
 }

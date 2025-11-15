@@ -12,6 +12,6 @@ export class SizeEntity {
   @Column()
   enName: string;
 
-  @Column()
+  @Column({ nullable: true })
   sort: number;
 }

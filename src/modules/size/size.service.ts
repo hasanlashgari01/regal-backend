@@ -1,11 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SizeEntity } from './entities/size.entity';
+import { Repository } from 'typeorm';
+import { ConflictMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class SizeService {
-  create(createSizeDto: CreateSizeDto) {
-    return 'This action adds a new size';
+  constructor(@InjectRepository(SizeEntity) private sizeRepository: Repository<SizeEntity>) {}
+
+  async create(createSizeDto: CreateSizeDto) {
+    const { name, enName, sort } = createSizeDto;
+
+    await this.ensureIsUnique(enName);
+    const size = await this.sizeRepository.save({
+      name,
+      enName,
+      sort,
+    });
+    return {
+      status: 201,
+      message: SuccessMessage.CreateSize,
+      data: size,
+    };
   }
 
   findAll() {
@@ -22,5 +40,10 @@ export class SizeService {
 
   remove(id: number) {
     return `This action removes a #${id} size`;
+  }
+
+  async ensureIsUnique(enName: string) {
+    const existing = await this.sizeRepository.findOneBy({ enName });
+    if (existing) throw new ConflictException(ConflictMessage.ExistSize);
   }
 }
