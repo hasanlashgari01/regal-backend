@@ -14,6 +14,7 @@ import { ProductImageEntity } from './product-image.entity';
 import { ProductSizeEntity } from './product-size.entity';
 import { ProductMaterialEntity } from './product-material.entity';
 import { ProductCategoryEntity } from './product-category.entity';
+import { ProductStatus } from '../enum/product-status.enum';
 
 @Entity(EntityName.Product)
 export class ProductEntity {
@@ -28,7 +29,7 @@ export class ProductEntity {
   @Index()
   slug: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true })
   code: string;
 
   @Column({ nullable: true })
@@ -45,6 +46,9 @@ export class ProductEntity {
 
   @Column({ nullable: true, default: false })
   activeDiscount: boolean;
+
+  @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus.DRAFT })
+  status: ProductStatus;
 
   @OneToMany(() => ProductImageEntity, (image) => image.product, { cascade: true })
   images: ProductImageEntity[];

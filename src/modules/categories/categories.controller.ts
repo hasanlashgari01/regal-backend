@@ -12,13 +12,10 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes } from '@nestjs/swagger';
 import { Admin } from 'src/common/decorators/auth.decorator';
-import {
-  ImageOptionalValidation,
-  ImageValidation,
-} from 'src/common/decorators/upload-validator.decorator';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { ImageOptionalValidation, ImageValidation } from 'src/common/pipes/image-validation.pipe';
 
 @Controller('categories')
 export class CategoriesController {

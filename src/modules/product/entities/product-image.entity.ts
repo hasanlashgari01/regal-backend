@@ -20,11 +20,8 @@ export class ProductImageEntity {
   @Column()
   key: string;
 
-  @Column({ nullable: true })
-  altText: string;
-
   @Column()
-  publicId: string;
+  productId: number;
   @ManyToOne(() => ProductEntity, (product) => product.images, { onDelete: 'CASCADE' })
   product: ProductEntity;
 

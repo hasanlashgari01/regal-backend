@@ -20,6 +20,7 @@ export enum ConflictMessage {
   ExistColorCode = 'رنگ مورد نظر وجود دارد',
   ExistDesign = 'طرح وجود دارد',
   ExistSize = 'سایز وجود دارد',
+  ExistProduct = 'محصول وجود دارد',
 }
 
 export enum PublicMessage {}
@@ -31,6 +32,7 @@ export enum NotFoundMessage {
   Color = 'رنگ مورد نظر یافت نشد',
   Design = 'طرح مورد نظر یافت نشد',
   Size = 'سایز مورد نظر یافت نشد',
+  Product = 'محصول مورد نظر یافت نشد',
 }
 
 export enum ValidationMessage {}
@@ -55,4 +57,10 @@ export enum SuccessMessage {
   CreateSize = ' سایز با موفقیت ساخته شد',
   UpdateSize = ' سایز با موفقیت آپدیت شد',
   DeleteSize = ' سایز با موفقیت حذف شد',
+  CreateProduct = ' محصول با موفقیت ساخته شد',
+  UpdateProduct = ' محصول با موفقیت آپدیت شد',
+  DeleteProduct = ' محصول با موفقیت حذف شد',
+  PublishProduct = 'محصول با موفقیت منتشر شد',
+  DraftProduct = 'محصول به حالت پیش‌نویس منتقل شد',
+  ArchiveProduct = 'محصول با موفقیت آرشیو شد',
 }
