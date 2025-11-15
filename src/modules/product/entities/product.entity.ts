@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductFeatureEntity } from './product-features.entity';
 
 @Entity(EntityName.Product)
 export class ProductEntity {
@@ -38,6 +40,9 @@ export class ProductEntity {
 
   @Column({ nullable: true, default: false })
   activeDiscount: boolean;
+
+  @OneToMany(() => ProductFeatureEntity, (feature) => feature.product)
+  features: ProductFeatureEntity;
 
   @CreateDateColumn({ type: 'time with time zone' })
   createdAt: Date;
