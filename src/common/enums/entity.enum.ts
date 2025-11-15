@@ -5,4 +5,5 @@ export enum EntityName {
   Material = 'material',
   Color = 'color',
   Design = 'design',
+  Size = 'size',
 }

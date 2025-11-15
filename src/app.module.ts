@@ -10,6 +10,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { MaterialModule } from './modules/material/material.module';
 import { ColorModule } from './modules/color/color.module';
 import { DesignModule } from './modules/design/design.module';
+import { SizeModule } from './modules/size/size.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DesignModule } from './modules/design/design.module';
     MaterialModule,
     ColorModule,
     DesignModule,
+    SizeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
