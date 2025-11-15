@@ -8,4 +8,5 @@ export enum EntityName {
   Size = 'size',
   Product = 'product',
   ProductSize = 'product_size',
+  ProductColor = 'product_color',
 }
