@@ -3,7 +3,7 @@ import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SizeEntity } from './entities/size.entity';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
@@ -37,8 +37,23 @@ export class SizeService {
     return size;
   }
 
-  update(id: number, updateSizeDto: UpdateSizeDto) {
-    return `This action updates a #${id} size`;
+  async update(id: number, updateSizeDto: UpdateSizeDto) {
+    await this.findOne(id);
+    const { name, enName, sort } = updateSizeDto;
+    const updateObject: DeepPartial<SizeEntity> = {};
+
+    if (name) updateObject['name'] = name;
+    if (enName) {
+      await this.ensureIsUnique(enName);
+      updateObject['enName'] = enName;
+    }
+    if (sort) updateObject['sort'] = sort;
+
+    await this.sizeRepository.update({ id }, updateObject);
+
+    return {
+      message: SuccessMessage.UpdateSize,
+    };
   }
 
   remove(id: number) {

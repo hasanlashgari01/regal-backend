@@ -28,6 +28,8 @@ export class SizeController {
   }
 
   @Patch(':id')
+  @Admin()
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   update(@Param('id') id: string, @Body() updateSizeDto: UpdateSizeDto) {
     return this.sizeService.update(+id, updateSizeDto);
   }
