@@ -12,6 +12,7 @@ import { ProductColorEntity } from './product-color.entity';
 import { ProductFeatureEntity } from './product-features.entity';
 import { ProductImageEntity } from './product-image.entity';
 import { ProductSizeEntity } from './product-size.entity';
+import { ProductMaterialEntity } from './product-material.entity';
 
 @Entity(EntityName.Product)
 export class ProductEntity {
@@ -55,6 +56,9 @@ export class ProductEntity {
 
   @OneToMany(() => ProductFeatureEntity, (feature) => feature.product)
   features: ProductFeatureEntity;
+
+  @OneToMany(() => ProductMaterialEntity, (pm) => pm.product)
+  materials: ProductMaterialEntity[];
 
   @CreateDateColumn({ type: 'time with time zone' })
   createdAt: Date;

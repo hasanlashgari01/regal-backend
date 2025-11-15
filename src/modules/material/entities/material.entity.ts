@@ -1,9 +1,11 @@
 import { EntityName } from 'src/common/enums/entity.enum';
+import { ProductMaterialEntity } from 'src/modules/product/entities/product-material.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +21,9 @@ export class MaterialEntity {
   @Column({ unique: true })
   @Index()
   slug: string;
+
+  @OneToMany(() => ProductMaterialEntity, (pm) => pm.material)
+  productMaterials: ProductMaterialEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
