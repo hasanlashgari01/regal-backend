@@ -1,10 +1,10 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { DeepPartial, Repository } from 'typeorm';
 import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { SizeEntity } from './entities/size.entity';
-import { DeepPartial, Repository } from 'typeorm';
-import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 
 @Injectable()
 export class SizeService {
@@ -56,8 +56,13 @@ export class SizeService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} size`;
+  async remove(id: number) {
+    await this.findOne(id);
+    await this.sizeRepository.delete({ id });
+
+    return {
+      message: SuccessMessage.DeleteSize,
+    };
   }
 
   async ensureIsUnique(enName: string) {

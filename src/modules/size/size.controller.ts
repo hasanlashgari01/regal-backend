@@ -35,6 +35,7 @@ export class SizeController {
   }
 
   @Delete(':id')
+  @Admin()
   remove(@Param('id') id: string) {
     return this.sizeService.remove(+id);
   }
