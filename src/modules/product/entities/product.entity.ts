@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductFeatureEntity } from './product-features.entity';
+import { ProductSizeEntity } from './product-size.entity';
 
 @Entity(EntityName.Product)
 export class ProductEntity {
@@ -40,6 +41,9 @@ export class ProductEntity {
 
   @Column({ nullable: true, default: false })
   activeDiscount: boolean;
+
+  @OneToMany(() => ProductSizeEntity, (size) => size.product)
+  sizes: ProductSizeEntity;
 
   @OneToMany(() => ProductFeatureEntity, (feature) => feature.product)
   features: ProductFeatureEntity;
