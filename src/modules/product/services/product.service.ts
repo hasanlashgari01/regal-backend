@@ -1,10 +1,19 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+<<<<<<< HEAD
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomInt } from 'crypto';
 import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dto/product.dto';
 import { ProductEntity } from '../entities/product.entity';
+=======
+import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ProductEntity } from '../entities/product.entity';
+import { Repository } from 'typeorm';
+import { ConflictMessage, NotFoundMessage, SuccessMessage } from 'src/common/enums/message.enum';
+import { randomInt } from 'crypto';
+>>>>>>> 0496aa82e83a323d9f62162ae1ef92efa65f0798
 import { ProductImageService } from './product-image.service';
 
 @Injectable()
